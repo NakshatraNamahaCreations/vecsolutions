@@ -17,6 +17,8 @@ import logoDRDL from '../assets/logo\'s/dmrl-logo.png'
 import logoGTRE from '../assets/logo\'s/GTRE Logo.png'
 import logoGulbrandsen from '../assets/logo\'s/Gulbrandsen-Logo.png'
 import logoHBL from '../assets/logo\'s/hbl-batteries.png'
+import homeImage1 from '../assets/home_iamges/vec_home.png'
+import homeImage2 from '../assets/home_iamges/home2_vec.jpg'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import './Home.css'
@@ -321,81 +323,6 @@ function Home() {
     }
   }, [])
 
-  useEffect(() => {
-    const parallaxSections = document.querySelectorAll('[data-parallax]')
-    if (!parallaxSections.length) return
-
-    let ticking = false
-
-    const updateParallax = () => {
-      const scrollY = window.scrollY || window.pageYOffset
-      parallaxSections.forEach((section) => {
-        const ratio = Number(section.getAttribute('data-parallax-ratio') || '0.2')
-        const offset = (scrollY - section.offsetTop) * ratio
-        section.style.setProperty('--parallax-shift', `${offset}px`)
-      })
-      ticking = false
-    }
-
-    const handleScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(updateParallax)
-        ticking = true
-      }
-    }
-
-    updateParallax()
-    window.addEventListener('scroll', handleScroll, { passive: true })
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-    }
-  }, [])
-
-  useEffect(() => {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (prefersReducedMotion) return undefined
-
-    const state = {
-      current: window.scrollY || 0,
-      target: window.scrollY || 0,
-      frame: null,
-    }
-    const ease = 0.08
-
-    const clamp = (value, min, max) => Math.min(Math.max(value, min), max)
-
-    const update = () => {
-      state.current += (state.target - state.current) * ease
-      window.scrollTo(0, state.current)
-
-      // Trigger scroll event for IntersectionObserver
-      window.dispatchEvent(new Event('scroll'))
-
-      if (Math.abs(state.target - state.current) > 0.5) {
-        state.frame = window.requestAnimationFrame(update)
-      } else {
-        state.frame = null
-        state.current = state.target
-      }
-    }
-
-    const handleWheel = (event) => {
-      const maxScroll = document.documentElement.scrollHeight - window.innerHeight
-      state.target = clamp(state.target + event.deltaY, 0, maxScroll)
-      if (!state.frame) {
-        state.frame = window.requestAnimationFrame(update)
-      }
-      event.preventDefault()
-    }
-
-    window.addEventListener('wheel', handleWheel, { passive: false })
-
-    return () => {
-      window.removeEventListener('wheel', handleWheel)
-      if (state.frame) window.cancelAnimationFrame(state.frame)
-    }
-  }, [])
 
   useEffect(() => {
     const timer = window.setInterval(() => {
@@ -426,8 +353,6 @@ function Home() {
           className="hero hero--visual"
           data-animate="fade-up"
           data-delay="0.05s"
-          data-parallax
-          data-parallax-ratio="0.25"
         >
           <video className="hero__video" src="/video (2).mp4" autoPlay muted loop playsInline />
           <div className="hero__overlay" />
@@ -448,50 +373,66 @@ function Home() {
           className="section section--about"
           data-animate="fade-up"
           data-delay="0.1s"
-          data-parallax
-          data-parallax-ratio="0.1"
         >
-          <div className="about-deck">
-            <header className="about-deck__header" data-animate="fade-up" data-delay="0.12s">
-              <span className="about-deck__kicker">About us</span>
-              <h2 className="about-deck__title">Welcome to VEC Solutions</h2>
-              <p className="about-deck__intro">
-                Discover how two decades of vacuum engineering experience, a nationwide footprint, and ISO-certified quality systems empower us to deliver
-                world-class solutions for laboratories and advanced manufacturers.
-              </p>
-            </header>
-            <div className="about-deck__layout" data-animate="fade-up" data-delay="0.2s">
-              <div className="about-deck__nav" role="tablist" aria-label="About highlights">
-                {aboutSteps.map((step) => (
-                  <button
-                    key={step.id}
-                    type="button"
-                    role="tab"
-                    aria-selected={activeAboutStep === step.id}
-                    aria-controls={`about-panel-${step.id}`}
-                    id={`about-tab-${step.id}`}
-                    className={`about-deck__tab${activeAboutStep === step.id ? ' is-active' : ''}`}
-                    onClick={() => setActiveAboutStep(step.id)}
-                  >
-                    <span className="about-deck__tab-label">{step.label}</span>
-                    <span className="about-deck__tab-rail" aria-hidden="true" />
-                  </button>
-                ))}
+          <div className="about-section">
+            <div className="about-section__container">
+              <div className="about-section__images" data-animate="fade-right" data-delay="0.2s">
+                <div className="about-section__image-grid">
+                  <div className="about-section__image-card about-section__image-card--one">
+                    <img src={homeImage1} alt="VEC Solutions vacuum equipment" loading="lazy" />
+                  </div>
+                  <div className="about-section__image-card about-section__image-card--two">
+                    <img src={homeImage2} alt="VEC Solutions advanced technology" loading="lazy" />
+                  </div>
+                </div>
               </div>
-              <div className="about-deck__panels">
-                {aboutSteps.map((step) => (
-                  <article
-                    key={step.id}
-                    role="tabpanel"
-                    id={`about-panel-${step.id}`}
-                    aria-labelledby={`about-tab-${step.id}`}
-                    className={`about-deck__panel${activeAboutStep === step.id ? ' is-visible' : ''}`}
-                    hidden={activeAboutStep !== step.id}
+
+              <div className="about-section__content" data-animate="fade-left" data-delay="0.3s">
+                <div className="about-section__header">
+                  <span className="about-section__kicker">About Us</span>
+                  <h2 className="about-section__title">Innovating the Future of Vacuum Technology</h2>
+                </div>
+
+                <div className="about-section__tabs">
+                  <button
+                    type="button"
+                    className={`about-section__tab ${activeAboutStep === 'overview' ? 'is-active' : ''}`}
+                    onClick={() => setActiveAboutStep('overview')}
                   >
-                    <h3>{step.headline}</h3>
-                    <p>{step.copy}</p>
-                  </article>
-                ))}
+                    Wide Range of Equipment
+                  </button>
+                  <button
+                    type="button"
+                    className={`about-section__tab ${activeAboutStep === 'expertise' ? 'is-active' : ''}`}
+                    onClick={() => setActiveAboutStep('expertise')}
+                  >
+                    Expert Support
+                  </button>
+                </div>
+
+                <div className="about-section__panel">
+                  {activeAboutStep === 'overview' && (
+                    <div className="about-section__panel-content">
+                      <p className="about-section__description">
+                        Welcome to VEC Solutions, your trusted partner in the realm of vacuum technology. As one of India's foremost manufacturers of vacuum equipment, we specialize in crafting precision-engineered solutions that meet the exacting standards of diverse industries.
+                      </p>
+                      <p className="about-section__description">
+                        With over two decades of experience, we have cemented our position as pioneers in the field, offering a comprehensive range of cutting-edge products to clients across India and beyond.
+                      </p>
+                    </div>
+                  )}
+
+                  {activeAboutStep === 'expertise' && (
+                    <div className="about-section__panel-content">
+                      <p className="about-section__description">
+                        Our team of seasoned engineers and technicians brings decades of collective experience to every project. We work closely with you to design and deliver solutions that perfectly match your needs.
+                      </p>
+                      <p className="about-section__description">
+                        From initial consultation through installation, training, and ongoing maintenance, we provide comprehensive support at every stage. Our ISO 9001:2015 certification ensures the highest standards of quality and reliability.
+                      </p>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -598,8 +539,6 @@ function Home() {
           className="section section--global"
           data-animate="fade-left"
           data-delay="0.08s"
-          data-parallax
-          data-parallax-ratio="0.12"
         >
           <div className="global">
             <div className="global__background" style={{ '--global-image': `url(${globalBackdrop})` }} aria-hidden="true" />
@@ -643,8 +582,6 @@ function Home() {
           className="section section--products"
           data-animate="fade-up"
           data-delay="0.1s"
-          data-parallax
-          data-parallax-ratio="0.1"
         >
           <div className="products-deck">
             <aside
@@ -894,7 +831,7 @@ function Home() {
               <button className="button button--primary form-submit" type="button">
                 Submit
               </button>
-              <p className="form-error">Error occurred while sending email. Please try again later.</p>
+            
             </form>
             <div className="contact-info" data-animate="fade-left" data-delay="0.28s">
               <div className="contact-card">
