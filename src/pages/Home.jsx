@@ -613,50 +613,49 @@ function Home() {
 
             <article
               key={activeProduct}
-              className="products-deck__detail"
+              className="products-deck__card"
               role="tabpanel"
               id={`products-panel-${activeProduct}`}
               aria-labelledby={`products-tab-${activeProduct}`}
             >
-              <header className="products-deck__detail-header">
-                <span className="products-deck__detail-kicker">VEC Solutions</span>
-                <h2>{activeProductData.title}</h2>
-                <p>{activeProductData.summary}</p>
-              </header>
-              <ul className="products-deck__detail-list">
-                {activeProductData.features.map((feature) => (
-                  <li key={feature}>
-                    <span className="products-deck__detail-bullet" aria-hidden="true" />
-                    <span>{feature}</span>
-                  </li>
-                ))}
-              </ul>
-              <a className="products-deck__detail-cta" href={activeProductData.anchor}>
-                View specification
-                <span aria-hidden="true">↗</span>
-              </a>
-            </article>
-
-            <div className="products-deck__visual" aria-hidden="true">
               <div
-                className="products-deck__visual-image"
+                className="products-deck__card-image"
                 style={{ '--product-image': `url(${activeProductData.visual})` }}
               />
-              <div className="products-deck__visual-meta">
-                <span>
-                  <strong>Legacy timeline</strong>
-                  <span>1999 → Present</span>
-                </span>
-                <span>
-                  <strong>Installations</strong>
-                  <span>150+ worldwide</span>
-                </span>
-                <span>
-                  <strong>Certification</strong>
-                  <span>ISO 9001:2015</span>
-                </span>
+              <div className="products-deck__card-content">
+                <header className="products-deck__card-header">
+                  <span className="products-deck__card-kicker">VEC Solutions</span>
+                  <h2>{activeProductData.title}</h2>
+                  <p>{activeProductData.summary}</p>
+                </header>
+                <ul className="products-deck__card-list">
+                  {activeProductData.features.slice(0, 3).map((feature) => (
+                    <li key={feature}>
+                      <span className="products-deck__card-bullet" aria-hidden="true" />
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+                <div className="products-deck__card-meta">
+                  <span>
+                    <strong>Legacy timeline</strong>
+                    <span>1999 → Present</span>
+                  </span>
+                  <span>
+                    <strong>Installations</strong>
+                    <span>150+ worldwide</span>
+                  </span>
+                  <span>
+                    <strong>Certification</strong>
+                    <span>ISO 9001:2015</span>
+                  </span>
+                </div>
+                <a className="products-deck__card-cta" href={activeProductData.anchor}>
+                  View specification
+                  <span aria-hidden="true">↗</span>
+                </a>
               </div>
-            </div>
+            </article>
           </div>
         </section>
 

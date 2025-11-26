@@ -22,6 +22,7 @@ const navLinks = [
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(false)
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
@@ -38,6 +39,22 @@ function Navbar() {
     }
   }
 
+  // Handle scroll to change navbar background
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY || window.pageYOffset
+      // Change to white background after scrolling past hero section (approximately 100vh)
+      setIsScrolled(scrollPosition > window.innerHeight * 0.8)
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll() // Check initial state
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
+
   // Prevent body scroll when menu is open
   useEffect(() => {
     if (isMenuOpen) {
@@ -51,10 +68,10 @@ function Navbar() {
   }, [isMenuOpen])
 
   return (
-    <header className="navbar">
+    <header className={`navbar ${isScrolled ? 'navbar--scrolled' : ''}`}>
       <div className="navbar__inner">
         <Link to="/" className="navbar__brand" aria-label="VEC Solutions home" onClick={closeMenu}>
-          <img src="/vec-logo1-removebg-preview.png" alt="VEC Solutions logo" className="navbar__logo" />
+          <img src="/vec-logo1.png" alt="VEC Solutions logo" className="navbar__logo" />
         </Link>
         <button
           className="navbar__toggle"

@@ -24,10 +24,10 @@ function Footer() {
       <div className="footer__inner">
         <div className="footer__brand">
           <Link to="/" className="footer__logo-link">
-            <img src="/vec-logo1-removebg-preview.png" alt="VEC Solutions" className="footer__logo" />
+            <img src="/vec-logo1.png" alt="VEC Solutions" className="footer__logo" />
           </Link>
           <p className="footer__copyright">
-            2024 @ All rights reserved. Design By: Punarapi Technologies
+            2025 @ All rights reserved. Design By: Punarapi Technologies
           </p>
         </div>
 
